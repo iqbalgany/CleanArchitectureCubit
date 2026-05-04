@@ -17,6 +17,7 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
             controller: title,
@@ -37,15 +38,17 @@ class _CreateTaskDialogState extends State<CreateTaskDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            context.read<TaskCubit>().createTask(
-              Task(
-                title: title.text.trim(),
-                description: description.text.trim(),
-                isCompleted: false,
-                createdAt: DateTime.now(),
-              ),
-            );
-            Navigator.pop(context);
+            if (title.text.isNotEmpty && description.text.isNotEmpty) {
+              context.read<TaskCubit>().createTask(
+                Task(
+                  title: title.text.trim(),
+                  description: description.text.trim(),
+                  isCompleted: false,
+                  createdAt: DateTime.now(),
+                ),
+              );
+              Navigator.pop(context);
+            }
           },
           child: Text('Create'),
         ),
